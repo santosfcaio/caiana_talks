@@ -12,5 +12,6 @@ This repository is in its initial state. No build system, test framework, or app
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read the current plan at
+`specs/001-user-profile-select/plan.md`.
 <!-- SPECKIT END -->
