@@ -1,1 +1,26 @@
 .claude/settings.local.json
+
+# Android / Kotlin
+build/
+out/
+.gradle/
+local.properties
+*.class
+*.jar
+*.aar
+*.ap_
+*.apk
+*.iml
+.idea/
+.cxx/
+*.log
+.env*
+
+# Gradle wrapper binary (must be generated locally)
+gradle/wrapper/gradle-wrapper.jar
+
+# Test results
+app/build/
+
+# macOS
+.DS_Store
