@@ -9,3 +9,8 @@ This repository is in its initial state. No build system, test framework, or app
 ## Structure
 
 - `poc_cluade_code/` — directory reserved for a proof-of-concept using Claude Code
+
+<!-- SPECKIT START -->
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan
+<!-- SPECKIT END -->
