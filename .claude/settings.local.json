@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(keybindings-help)",
+      "Bash(git -C \"E:\\\\Projetos\\\\caiana_talks\" status)",
+      "Bash(git -C \"E:\\\\Projetos\\\\caiana_talks\" log --oneline -5)",
+      "Bash(git *)"
+    ]
+  }
+}
