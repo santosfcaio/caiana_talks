@@ -4,6 +4,7 @@ import com.caiana.talks.data.local.db.UserProfileEntity
 import com.caiana.talks.data.repository.UserRepository
 import com.caiana.talks.ui.profileselection.ProfileSelectionUiState
 import com.caiana.talks.ui.profileselection.ProfileSelectionViewModel
+import app.cash.turbine.test
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -59,24 +60,25 @@ class ProfileSelectionViewModelTest {
     fun `uiState transitions to ShowSelection once profiles are loaded`() = runTest {
         // Arrange — fakeRepository emits profiles immediately
 
-        // Act
-        advanceUntilIdle()
-        val state = viewModel.uiState.value
-
-        // Assert
-        assertTrue(state is ProfileSelectionUiState.ShowSelection)
+        // Act & Assert — collect the flow so WhileSubscribed activates it
+        viewModel.uiState.test {
+            skipItems(1) // skip Loading
+            assertTrue(awaitItem() is ProfileSelectionUiState.ShowSelection)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test
     fun `ShowSelection contains both profiles`() = runTest {
         // Arrange
 
-        // Act
-        advanceUntilIdle()
-        val state = viewModel.uiState.value as ProfileSelectionUiState.ShowSelection
-
-        // Assert
-        assertEquals(listOf(caioProfile, anaProfile), state.profiles)
+        // Act & Assert
+        viewModel.uiState.test {
+            skipItems(1) // skip Loading
+            val state = awaitItem() as ProfileSelectionUiState.ShowSelection
+            assertEquals(listOf(caioProfile, anaProfile), state.profiles)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     // --- onUserSelected ---

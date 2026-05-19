@@ -22,5 +22,8 @@ gradle/wrapper/gradle-wrapper.jar
 # Test results
 app/build/
 
+# VS Code local settings (machine-specific paths)
+.vscode/settings.json
+
 # macOS
 .DS_Store

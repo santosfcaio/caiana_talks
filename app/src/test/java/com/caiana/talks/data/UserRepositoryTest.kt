@@ -4,6 +4,7 @@ import com.caiana.talks.data.local.db.UserProfileEntity
 import com.caiana.talks.data.local.db.UserProfileDao
 import com.caiana.talks.data.local.preferences.UserPreferencesDataStore
 import com.caiana.talks.data.repository.UserRepository
+import com.caiana.talks.data.repository.UserRepositoryImpl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -19,7 +20,7 @@ class UserRepositoryTest {
 
     private lateinit var fakeDataStore: FakeUserPreferencesDataStore
     private lateinit var fakeDao: FakeUserProfileDao
-    private lateinit var repository: UserRepository
+    private lateinit var repository: UserRepositoryImpl
 
     private val caioProfile = UserProfileEntity(id = 1, name = "Caio")
     private val anaProfile = UserProfileEntity(id = 2, name = "Ana")
@@ -28,7 +29,7 @@ class UserRepositoryTest {
     fun setUp() {
         fakeDataStore = FakeUserPreferencesDataStore()
         fakeDao = FakeUserProfileDao(listOf(caioProfile, anaProfile))
-        repository = UserRepository(fakeDataStore, fakeDao)
+        repository = UserRepositoryImpl(fakeDataStore, fakeDao)
     }
 
     // --- getActiveUserProfile ---
