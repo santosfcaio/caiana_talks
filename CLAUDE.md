@@ -4,11 +4,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Status
 
-This repository is in its initial state. No build system, test framework, or application code has been added yet.
 
 ## Structure
-
-- `poc_cluade_code/` — directory reserved for a proof-of-concept using Claude Code
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
