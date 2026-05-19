@@ -27,7 +27,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit = {},
-    onSwitchProfile: () -> Unit
+    onSwitchProfile: () -> Unit,
+    onNavigateToEdit: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -54,6 +55,13 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = onNavigateToEdit,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Editar preferências")
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = onSwitchProfile,

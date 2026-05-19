@@ -23,7 +23,7 @@
 
 **Purpose**: Establish the `domain/model/` package structure (new in this feature)
 
-- [ ] T001 Create `ProfilePreferences` and `VoicePreference` data classes in `app/src/main/java/com/caiana/talks/domain/model/ProfilePreferences.kt` to establish the `domain/model/` package
+- [X] T001 Create `ProfilePreferences` and `VoicePreference` data classes in `app/src/main/java/com/caiana/talks/domain/model/ProfilePreferences.kt` to establish the `domain/model/` package
 
 ---
 
@@ -33,14 +33,14 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T002 [P] Create `LearningGoal` enum with values `TRAVEL`, `BUSINESS`, `CASUAL` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/LearningGoal.kt`
-- [ ] T003 [P] Create `ConversationTheme` enum with 10 predefined values and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/ConversationTheme.kt`
-- [ ] T004 [P] Create `VoiceGender` enum with values `FEMININE`, `MASCULINE` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/VoiceGender.kt`
-- [ ] T005 [P] Create `VoiceAccent` enum with values `AMERICAN`, `BRITISH` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/VoiceAccent.kt`
-- [ ] T006 [P] Create `SpeechRate` enum with values `SLOW`, `NORMAL`, `FAST` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/SpeechRate.kt`
-- [ ] T007 [P] Add `@Update suspend fun update(profile: UserProfileEntity)` to `app/src/main/java/com/caiana/talks/data/local/db/UserProfileDao.kt`
-- [ ] T008 Add entity-domain extension functions mapping `UserProfileEntity` fields to/from `ProfilePreferences`, `VoicePreference`, and all enums — return safe defaults (`FEMININE`/`AMERICAN`/`NORMAL`/`null` goal/empty themes) for unrecognized DB values — in `app/src/main/java/com/caiana/talks/data/local/db/UserProfileEntityExt.kt`
-- [ ] T009 Add `suspend fun updateProfile(profile: UserProfileEntity)` to `UserRepository` interface and implement in `UserRepositoryImpl` calling `dao.update(profile)` in `app/src/main/java/com/caiana/talks/data/repository/UserRepository.kt`
+- [X] T002 [P] Create `LearningGoal` enum with values `TRAVEL`, `BUSINESS`, `CASUAL` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/LearningGoal.kt`
+- [X] T003 [P] Create `ConversationTheme` enum with 10 predefined values and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/ConversationTheme.kt`
+- [X] T004 [P] Create `VoiceGender` enum with values `FEMININE`, `MASCULINE` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/VoiceGender.kt`
+- [X] T005 [P] Create `VoiceAccent` enum with values `AMERICAN`, `BRITISH` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/VoiceAccent.kt`
+- [X] T006 [P] Create `SpeechRate` enum with values `SLOW`, `NORMAL`, `FAST` and PT-BR display labels in `app/src/main/java/com/caiana/talks/domain/model/SpeechRate.kt`
+- [X] T007 [P] Add `@Update suspend fun update(profile: UserProfileEntity)` to `app/src/main/java/com/caiana/talks/data/local/db/UserProfileDao.kt`
+- [X] T008 Add entity-domain extension functions mapping `UserProfileEntity` fields to/from `ProfilePreferences`, `VoicePreference`, and all enums — return safe defaults (`FEMININE`/`AMERICAN`/`NORMAL`/`null` goal/empty themes) for unrecognized DB values — in `app/src/main/java/com/caiana/talks/data/local/db/UserProfileEntityExt.kt`
+- [X] T009 Add `suspend fun updateProfile(profile: UserProfileEntity)` to `UserRepository` interface and implement in `UserRepositoryImpl` calling `dao.update(profile)` in `app/src/main/java/com/caiana/talks/data/repository/UserRepository.kt`
 
 **Checkpoint**: Foundation ready — domain enumerations, entity mapper, DAO write path, and repository write method are complete. User story implementation can begin.
 
@@ -54,10 +54,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [US1] Create `ProfileEditUiState` data class and `ProfileEditViewModel` with `setLearningGoal()`, `savePreferences()`, and `StateFlow<ProfileEditUiState>` loaded from `UserRepository` via `savedStateHandle` profile ID in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
-- [ ] T011 [US1] Add `StartDestination.ProfileSetup(userName: String)` variant to the `StartDestination` sealed class and update `MainViewModel` to emit `ProfileSetup` when active profile has blank `learningGoals` in `app/src/main/java/com/caiana/talks/ui/main/MainViewModel.kt`
-- [ ] T012 [US1] Add `profileEdit` composable route and `ProfileSetup` navigation handling (back button hidden when no home in back stack) to `app/src/main/java/com/caiana/talks/ui/navigation/AppNavGraph.kt`
-- [ ] T013 [US1] Create `ProfileEditScreen` composable with learning goal radio-button section (Viagem / Negócios / Conversa casual in PT-BR) and Save button; hide system back button via `BackHandler` when navigating from `ProfileSetup` flow in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
+- [X] T010 [US1] Create `ProfileEditUiState` data class and `ProfileEditViewModel` with `setLearningGoal()`, `savePreferences()`, and `StateFlow<ProfileEditUiState>` loaded from `UserRepository` via `savedStateHandle` profile ID in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
+- [X] T011 [US1] Add `StartDestination.ProfileSetup(userName: String)` variant to the `StartDestination` sealed class and update `MainViewModel` to emit `ProfileSetup` when active profile has blank `learningGoals` in `app/src/main/java/com/caiana/talks/ui/main/MainViewModel.kt`
+- [X] T012 [US1] Add `profileEdit` composable route and `ProfileSetup` navigation handling (back button hidden when no home in back stack) to `app/src/main/java/com/caiana/talks/ui/navigation/AppNavGraph.kt`
+- [X] T013 [US1] Create `ProfileEditScreen` composable with learning goal radio-button section (Viagem / Negócios / Conversa casual in PT-BR) and Save button; hide system back button via `BackHandler` when navigating from `ProfileSetup` flow in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
 
 **Checkpoint**: User Story 1 fully functional — onboarding flow works end-to-end; learning goal persists and is correctly recovered after app restart.
 
@@ -71,8 +71,8 @@
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Expand `ProfileEditUiState` with `selectedThemes: Set<ConversationTheme>` and add `toggleTheme(theme: ConversationTheme)` to `ProfileEditViewModel` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
-- [ ] T015 [US2] Add conversation themes multi-select section (10 checkboxes or chips with PT-BR labels, no minimum selection required) to `ProfileEditScreen` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
+- [X] T014 [US2] Expand `ProfileEditUiState` with `selectedThemes: Set<ConversationTheme>` and add `toggleTheme(theme: ConversationTheme)` to `ProfileEditViewModel` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
+- [X] T015 [US2] Add conversation themes multi-select section (10 checkboxes or chips with PT-BR labels, no minimum selection required) to `ProfileEditScreen` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
 
 **Checkpoint**: User Story 2 functional — themes can be selected, deselected, and persisted; empty selection is accepted.
 
@@ -86,9 +86,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T016 [US3] Expand `ProfileEditUiState` with `voiceGender: VoiceGender`, `voiceAccent: VoiceAccent`, `speechRate: SpeechRate` (defaulting to FEMININE/AMERICAN/NORMAL) and add `setVoiceGender()`, `setVoiceAccent()`, `setSpeechRate()` to `ProfileEditViewModel` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
-- [ ] T017 [US3] Add voice settings section (gender toggle, accent selector, speech rate selector — all labels in PT-BR) to `ProfileEditScreen` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
-- [ ] T018 [P] [US3] Add "Editar preferências" button navigating to the `profileEdit` route in `app/src/main/java/com/caiana/talks/ui/settings/SettingsScreen.kt`
+- [X] T016 [US3] Expand `ProfileEditUiState` with `voiceGender: VoiceGender`, `voiceAccent: VoiceAccent`, `speechRate: SpeechRate` (defaulting to FEMININE/AMERICAN/NORMAL) and add `setVoiceGender()`, `setVoiceAccent()`, `setSpeechRate()` to `ProfileEditViewModel` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditViewModel.kt`
+- [X] T017 [US3] Add voice settings section (gender toggle, accent selector, speech rate selector — all labels in PT-BR) to `ProfileEditScreen` in `app/src/main/java/com/caiana/talks/ui/profileedit/ProfileEditScreen.kt`
+- [X] T018 [P] [US3] Add "Editar preferências" button navigating to the `profileEdit` route in `app/src/main/java/com/caiana/talks/ui/settings/SettingsScreen.kt`
 
 **Checkpoint**: All three user stories functional — full profile personalization screen works end-to-end with correct persistence and profile isolation.
 
@@ -98,8 +98,8 @@
 
 **Purpose**: ViewModel unit tests, edge-case hardening, and manual validation
 
-- [ ] T019 [P] Write `ProfileEditViewModelTest` covering: initial state load from entity, `setLearningGoal`, `toggleTheme` (add and remove), `setVoiceGender` / `setVoiceAccent` / `setSpeechRate`, and `savePreferences` setting `isSaved = true` in `app/src/test/java/com/caiana/talks/ui/ProfileEditViewModelTest.kt`
-- [ ] T020 Verify corrupted DB recovery: confirm entity-to-domain mapping in `app/src/main/java/com/caiana/talks/data/local/db/UserProfileEntityExt.kt` returns safe defaults when DB strings are unrecognized — update mapping functions if any unsafe `.valueOf()` or unchecked enum lookup is found
+- [X] T019 [P] Write `ProfileEditViewModelTest` covering: initial state load from entity, `setLearningGoal`, `toggleTheme` (add and remove), `setVoiceGender` / `setVoiceAccent` / `setSpeechRate`, and `savePreferences` setting `isSaved = true` in `app/src/test/java/com/caiana/talks/ui/ProfileEditViewModelTest.kt`
+- [X] T020 Verify corrupted DB recovery: confirm entity-to-domain mapping in `app/src/main/java/com/caiana/talks/data/local/db/UserProfileEntityExt.kt` returns safe defaults when DB strings are unrecognized — update mapping functions if any unsafe `.valueOf()` or unchecked enum lookup is found
 - [ ] T021 Run manual validation per `specs/002-profile-personalization/quickstart.md`: onboarding flow, post-onboarding edit via Settings, persistence after full app restart, and preference isolation between two user profiles
 
 ---
