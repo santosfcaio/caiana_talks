@@ -25,6 +25,23 @@ Branch atual: `002-profile-personalization`
 - `data/repository/` — `UserRepository`
 - `di/` — módulos Hilt
 
+## Testes
+
+Para rodar todos os testes unitários:
+```powershell
+.\gradlew test
+```
+
+Para rodar apenas os testes de debug (mais rápido):
+```powershell
+.\gradlew testDebugUnitTest
+```
+
+Para rodar um teste específico:
+```powershell
+.\gradlew testDebugUnitTest --tests "com.caiana.talks.ui.ProfileEditViewModelTest"
+```
+
 ## Emulador Android
 
 Para iniciar o emulador e abrir o app com as últimas alterações, execute os comandos abaixo **em sequência no PowerShell**:
