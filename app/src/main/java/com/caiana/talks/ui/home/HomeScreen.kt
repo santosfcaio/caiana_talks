@@ -1,10 +1,12 @@
 package com.caiana.talks.ui.home
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,7 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeScreen(
     userName: String,
-    onNavigateToSettings: () -> Unit
+    onNavigateToSettings: () -> Unit,
+    onNavigateToStats: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -34,13 +37,17 @@ fun HomeScreen(
             )
         }
     ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentAlignment = Alignment.Center
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Text(text = "Olá, $userName!")
+            Button(onClick = onNavigateToStats) {
+                Text("Ver meu progresso")
+            }
         }
     }
 }
@@ -48,5 +55,5 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(userName = "Caio", onNavigateToSettings = {})
+    HomeScreen(userName = "Caio", onNavigateToSettings = {}, onNavigateToStats = {})
 }

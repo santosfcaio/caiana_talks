@@ -18,6 +18,7 @@ import com.caiana.talks.ui.main.StartDestination
 import com.caiana.talks.ui.profileedit.ProfileEditScreen
 import com.caiana.talks.ui.profileselection.ProfileSelectionScreen
 import com.caiana.talks.ui.settings.SettingsScreen
+import com.caiana.talks.ui.stats.StatsScreen
 
 @Composable
 fun AppNavGraph(
@@ -61,7 +62,8 @@ fun AppNavGraph(
                 composable("home") {
                     HomeScreen(
                         userName = userName,
-                        onNavigateToSettings = { navController.navigate("settings") }
+                        onNavigateToSettings = { navController.navigate("settings") },
+                        onNavigateToStats = { navController.navigate("stats") }
                     )
                 }
                 composable("settings") {
@@ -78,6 +80,9 @@ fun AppNavGraph(
                         hideBack = false,
                         onNavigateBack = { navController.popBackStack() }
                     )
+                }
+                composable("stats") {
+                    StatsScreen(onNavigateBack = { navController.popBackStack() })
                 }
             }
         }

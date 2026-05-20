@@ -4,7 +4,7 @@
 
 **Prerequisites**: plan.md ✅ | spec.md ✅ | research.md ✅ | data-model.md ✅ | contracts/stats-screen.md ✅
 
-**Tests**: Not included — not explicitly requested in the feature specification.
+**Tests**: Included — unit tests created for `StatsRepositoryImpl` (23 tests) and `StatsViewModel` (8 tests). All passing.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -20,9 +20,9 @@
 
 **Purpose**: Create the domain model files that the data layer and UI both depend on. All three tasks are independent and can run in parallel.
 
-- [ ] T001 [P] Create `CorrectionCategory` enum (`GRAMMAR`, `VOCABULARY`, `FLUENCY`) with Portuguese `displayLabel` values in `domain/model/CorrectionCategory.kt`
-- [ ] T002 [P] Create `CefrLevel` enum (`A1`–`C2`) with `label` and Portuguese `description` per level in `domain/model/CefrLevel.kt`
-- [ ] T003 [P] Create `ProgressSnapshot`, `SessionSummary`, and `CorrectionSummary` data classes (all computed, not persisted) in `domain/model/ProgressSnapshot.kt`
+- [X] T001 [P] Create `CorrectionCategory` enum (`GRAMMAR`, `VOCABULARY`, `FLUENCY`) with Portuguese `displayLabel` values in `domain/model/CorrectionCategory.kt`
+- [X] T002 [P] Create `CefrLevel` enum (`A1`–`C2`) with `label` and Portuguese `description` per level in `domain/model/CefrLevel.kt`
+- [X] T003 [P] Create `ProgressSnapshot`, `SessionSummary`, and `CorrectionSummary` data classes (all computed, not persisted) in `domain/model/ProgressSnapshot.kt`
 
 **Checkpoint**: Domain model files exist — data layer can reference them without circular dependencies.
 
@@ -34,12 +34,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 [P] Create `CorrectionEntity` with `tableName = "corrections"`, FK to `SessionEntity` (`CASCADE`), and index on `sessionId` in `data/local/db/CorrectionEntity.kt`
-- [ ] T005 [P] Create `SessionDao` with `getSessionsForProfile(profileId): Flow<List<SessionEntity>>`, `insertSession`, and `getSessionCount` in `data/local/db/SessionDao.kt`
-- [ ] T006 [P] Create `CorrectionDao` with `CategoryCount` data class, `getCorrectionsForSession`, `getCategoryCountsForProfile` (JOIN query grouped by category), and `insertCorrection` in `data/local/db/CorrectionDao.kt`
-- [ ] T007 Update `AppDatabase` to version 2 — add `CorrectionEntity::class` to `@Database(entities)`, add `abstract fun sessionDao()` and `abstract fun correctionDao()`, and add `MIGRATION_1_2` (SQL in `data-model.md §Database Migration`) in `data/local/db/AppDatabase.kt`
-- [ ] T008 Implement `StatsRepository` interface and `StatsRepositoryImpl` — reactive `combine()` on Sessions + Corrections Flows, CEFR heuristic from `research.md §3`, 7-rule insights engine from `research.md §4`, session list capped at 5 corrections per `SessionSummary` in `data/repository/StatsRepository.kt`
-- [ ] T009 Bind `StatsRepositoryImpl` to `StatsRepository` as a Hilt `@Singleton` in `di/AppModule.kt`
+- [X] T004 [P] Create `CorrectionEntity` with `tableName = "corrections"`, FK to `SessionEntity` (`CASCADE`), and index on `sessionId` in `data/local/db/CorrectionEntity.kt`
+- [X] T005 [P] Create `SessionDao` with `getSessionsForProfile(profileId): Flow<List<SessionEntity>>`, `insertSession`, and `getSessionCount` in `data/local/db/SessionDao.kt`
+- [X] T006 [P] Create `CorrectionDao` with `CategoryCount` data class, `getCorrectionsForSession`, `getCategoryCountsForProfile` (JOIN query grouped by category), and `insertCorrection` in `data/local/db/CorrectionDao.kt`
+- [X] T007 Update `AppDatabase` to version 2 — add `CorrectionEntity::class` to `@Database(entities)`, add `abstract fun sessionDao()` and `abstract fun correctionDao()`, and add `MIGRATION_1_2` (SQL in `data-model.md §Database Migration`) in `data/local/db/AppDatabase.kt`
+- [X] T008 Implement `StatsRepository` interface and `StatsRepositoryImpl` — reactive `combine()` on Sessions + Corrections Flows, CEFR heuristic from `research.md §3`, 7-rule insights engine from `research.md §4`, session list capped at 5 corrections per `SessionSummary` in `data/repository/StatsRepository.kt`
+- [X] T009 Bind `StatsRepositoryImpl` to `StatsRepository` as a Hilt `@Singleton` in `di/AppModule.kt`
 
 **Task order within phase**: T004 + T005 + T006 run in parallel → T007 (requires all three) → T008 (requires T007 + T001–T003) → T009 (requires T008).
 
@@ -53,10 +53,10 @@
 
 **Independent Test**: Navigate Home → "Ver meu progresso" → Stats screen. With no sessions, see the CEFR placeholder. After seeding one session via `quickstart.md §Option 2`, see "A1 — Iniciante" and its description.
 
-- [ ] T010 [P] [US1] Create `StatsViewModel` — inject `StatsRepository` + `UserRepository`, collect `getActiveUserProfile()`, flatMap to `getProgressSnapshot(profileId)`, expose `StateFlow<StatsUiState>` in `ui/stats/StatsViewModel.kt`
-- [ ] T011 [P] [US1] Create `StatsScreen` composable — `TopAppBar` with back button, `LazyColumn` body, and CEFR Level card (shows `CefrLevel.label` + `description`, or empty-state `"Conclua uma sessão para ver seu nível estimado."` when null) in `ui/stats/StatsScreen.kt`
-- [ ] T012 [US1] Register `"stats"` composable route in `AppNavGraph.kt` — compose `StatsScreen(onNavigateBack = { navController.popBackStack() })` and pass `onNavigateToStats = { navController.navigate("stats") }` to `HomeScreen` in `ui/navigation/AppNavGraph.kt`
-- [ ] T013 [US1] Add `onNavigateToStats: () -> Unit` parameter to `HomeScreen` and add a `Button(onClick = onNavigateToStats) { Text("Ver meu progresso") }` below the greeting in `ui/home/HomeScreen.kt`
+- [X] T010 [P] [US1] Create `StatsViewModel` — inject `StatsRepository` + `UserRepository`, collect `getActiveUserProfile()`, flatMap to `getProgressSnapshot(profileId)`, expose `StateFlow<StatsUiState>` in `ui/stats/StatsViewModel.kt`
+- [X] T011 [P] [US1] Create `StatsScreen` composable — `TopAppBar` with back button, `LazyColumn` body, and CEFR Level card (shows `CefrLevel.label` + `description`, or empty-state `"Conclua uma sessão para ver seu nível estimado."` when null) in `ui/stats/StatsScreen.kt`
+- [X] T012 [US1] Register `"stats"` composable route in `AppNavGraph.kt` — compose `StatsScreen(onNavigateBack = { navController.popBackStack() })` and pass `onNavigateToStats = { navController.navigate("stats") }` to `HomeScreen` in `ui/navigation/AppNavGraph.kt`
+- [X] T013 [US1] Add `onNavigateToStats: () -> Unit` parameter to `HomeScreen` and add a `Button(onClick = onNavigateToStats) { Text("Ver meu progresso") }` below the greeting in `ui/home/HomeScreen.kt`
 
 **Task order within phase**: T010 + T011 run in parallel → T012 (requires T011) + T013 (independent of T012, different file).
 
@@ -70,7 +70,7 @@
 
 **Independent Test**: Seed two sessions with corrections tagged by category via `quickstart.md §Option 2`. Verify all three category rows show correct counts; remove all corrections and verify all rows still show "0 erros".
 
-- [ ] T014 [US2] Add error breakdown section card to `StatsScreen` — three rows (Gramática, Vocabulário, Fluência) each displaying `${count} erro(s)` from `uiState.grammarErrors`, `vocabularyErrors`, `fluencyErrors`; always visible regardless of counts in `ui/stats/StatsScreen.kt`
+- [X] T014 [US2] Add error breakdown section card to `StatsScreen` — three rows (Gramática, Vocabulário, Fluência) each displaying `${count} erro(s)` from `uiState.grammarErrors`, `vocabularyErrors`, `fluencyErrors`; always visible regardless of counts in `ui/stats/StatsScreen.kt`
 
 **Checkpoint**: User Story 2 functional — error breakdown visible below the CEFR card.
 
@@ -82,7 +82,7 @@
 
 **Independent Test**: Seed two sessions (one with corrections, one without) via `quickstart.md §Option 2`. Verify dates, durations, correction descriptions, and the "no corrections" empty state on the second session.
 
-- [ ] T015 [US3] Add session history section to `StatsScreen` — `LazyColumn` (or sub-list) of session cards from `uiState.sessions`, each showing formatted date (`dd MMM yyyy`), duration (`durationMinutes < 60 → "Xmin"`, `≥ 60 → "Xh Ymin"`), corrections list (max 5), correction empty-state, and overall empty-state when `sessions.isEmpty()` in `ui/stats/StatsScreen.kt`
+- [X] T015 [US3] Add session history section to `StatsScreen` — `LazyColumn` (or sub-list) of session cards from `uiState.sessions`, each showing formatted date (`dd MMM yyyy`), duration (`durationMinutes < 60 → "Xmin"`, `≥ 60 → "Xh Ymin"`), corrections list (max 5), correction empty-state, and overall empty-state when `sessions.isEmpty()` in `ui/stats/StatsScreen.kt`
 
 **Checkpoint**: User Story 3 functional — session history scrollable below the error breakdown card.
 
@@ -94,7 +94,7 @@
 
 **Independent Test**: Seed two sessions with Grammar corrections > 50% of total. Verify the grammar-focused insight appears. Seed only one session and verify the "more sessions needed" placeholder shows instead.
 
-- [ ] T016 [US4] Add insights section card to `StatsScreen` — iterate `uiState.insights` list, display each string as a bullet item; show `"Conclua mais sessões para desbloquear insights."` when list is empty in `ui/stats/StatsScreen.kt`
+- [X] T016 [US4] Add insights section card to `StatsScreen` — iterate `uiState.insights` list, display each string as a bullet item; show `"Conclua mais sessões para desbloquear insights."` when list is empty in `ui/stats/StatsScreen.kt`
 
 **Checkpoint**: All four user stories functional. Stats screen is complete end-to-end.
 
@@ -104,7 +104,7 @@
 
 **Purpose**: Loading state, edge-case validation, and emulator sign-off.
 
-- [ ] T017 Add `CircularProgressIndicator` loading state to `StatsScreen` — when `uiState.isLoading == true`, render the indicator centered in the `LazyColumn` body instead of the section cards in `ui/stats/StatsScreen.kt`
+- [X] T017 Add `CircularProgressIndicator` loading state to `StatsScreen` — when `uiState.isLoading == true`, render the indicator centered in the `LazyColumn` body instead of the section cards in `ui/stats/StatsScreen.kt`
 - [ ] T018 [P] Validate Stats screen on emulator using `specs/003-user-stats/quickstart.md` — run Options 2 + 3 to confirm: empty state, A1 with 1 session, B1 with 7 sessions / 8 avg errors, long-duration display (≥ 60 min), profile switch refreshes all data, no stale data visible after switch
 
 **Checkpoint**: Feature complete and validated on device.
