@@ -4,6 +4,27 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Status
 
+Branch atual: `002-profile-personalization`
+
+### Features implementadas
+
+| # | Feature | Branch | Status |
+|---|---------|--------|--------|
+| 001 | Seleção de perfil de usuário | `001-user-profile-select` | Concluída e mergeada em `main` |
+| 002 | Personalização de perfil (`ProfileEditScreen`, `ProfileEditViewModel`, preferências de aprendizado/voz) | `002-profile-personalization` | Concluída, aguardando merge |
+
+### Estrutura de source
+- `ui/profileselection/` — tela de seleção de perfil
+- `ui/profileedit/` — tela de edição de preferências do perfil
+- `ui/home/` — tela inicial
+- `ui/settings/` — tela de configurações
+- `ui/navigation/` — grafo de navegação (Jetpack Navigation Compose)
+- `domain/model/` — enumerações de domínio (`LearningGoal`, `ConversationTheme`, `VoiceGender`, `VoiceAccent`, `SpeechRate`, `ProfilePreferences`)
+- `data/local/db/` — Room database, DAOs e entidades
+- `data/local/preferences/` — DataStore de preferências do usuário
+- `data/repository/` — `UserRepository`
+- `di/` — módulos Hilt
+
 ## Emulador Android
 
 Para iniciar o emulador e abrir o app com as últimas alterações, execute os comandos abaixo **em sequência no PowerShell**:
