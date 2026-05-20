@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Status
 
-Branch atual: `002-profile-personalization`
+Branch atual: `main`
 
 ### Features implementadas
 
 | # | Feature | Branch | Status |
 |---|---------|--------|--------|
 | 001 | Seleção de perfil de usuário | `001-user-profile-select` | Concluída e mergeada em `main` |
-| 002 | Personalização de perfil (`ProfileEditScreen`, `ProfileEditViewModel`, preferências de aprendizado/voz) | `002-profile-personalization` | Concluída, aguardando merge |
+| 002 | Personalização de perfil (`ProfileEditScreen`, `ProfileEditViewModel`, preferências de aprendizado/voz) | `002-profile-personalization` | Concluída e mergeada em `main` |
 
 ### Estrutura de source
 - `ui/profileselection/` — tela de seleção de perfil
