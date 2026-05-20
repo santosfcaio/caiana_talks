@@ -73,7 +73,7 @@ $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan at
-`specs/002-profile-personalization/plan.md`.
+`specs/003-user-stats/plan.md`.
 <!-- SPECKIT END -->
 
 Para decisões de design e princípios do produto, consulte a constituição em
