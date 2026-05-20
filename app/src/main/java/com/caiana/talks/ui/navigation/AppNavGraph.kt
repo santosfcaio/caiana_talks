@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.caiana.talks.ui.home.HomeScreen
 import com.caiana.talks.ui.main.MainViewModel
 import com.caiana.talks.ui.main.StartDestination
+import com.caiana.talks.ui.profileedit.ProfileEditScreen
 import com.caiana.talks.ui.profileselection.ProfileSelectionScreen
 import com.caiana.talks.ui.settings.SettingsScreen
 
@@ -40,6 +41,19 @@ fun AppNavGraph(
             }
         }
 
+        is StartDestination.ProfileSetup -> {
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = "profileEdit") {
+                composable("profileEdit") {
+                    ProfileEditScreen(
+                        viewModel = hiltViewModel(),
+                        onSaved = {},
+                        hideBack = true
+                    )
+                }
+            }
+        }
+
         is StartDestination.Home -> {
             val userName = (startDest as StartDestination.Home).userName
             val navController = rememberNavController()
@@ -53,7 +67,16 @@ fun AppNavGraph(
                 composable("settings") {
                     SettingsScreen(
                         onNavigateBack = { navController.popBackStack() },
-                        onSwitchProfile = { mainViewModel.clearActiveUser() }
+                        onSwitchProfile = { mainViewModel.clearActiveUser() },
+                        onNavigateToEdit = { navController.navigate("profileEdit") }
+                    )
+                }
+                composable("profileEdit") {
+                    ProfileEditScreen(
+                        viewModel = hiltViewModel(),
+                        onSaved = { navController.popBackStack() },
+                        hideBack = false,
+                        onNavigateBack = { navController.popBackStack() }
                     )
                 }
             }

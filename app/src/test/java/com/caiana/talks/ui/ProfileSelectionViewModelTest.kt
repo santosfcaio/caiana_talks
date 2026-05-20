@@ -148,5 +148,7 @@ class ProfileSelectionViewModelTest {
             clearCalled = true
             activeUserIdFlow.value = null
         }
+
+        override suspend fun updateProfile(profile: UserProfileEntity) {}
     }
 }

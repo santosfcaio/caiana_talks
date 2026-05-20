@@ -159,8 +159,11 @@ class UserRepositoryTest {
     private class FakeUserProfileDao(
         private val profiles: List<UserProfileEntity>
     ) : UserProfileDao {
+        var lastUpdated: UserProfileEntity? = null
+
         override fun getAll(): Flow<List<UserProfileEntity>> = flowOf(profiles)
         override fun getById(id: Int): Flow<UserProfileEntity?> =
             flowOf(profiles.firstOrNull { it.id == id })
+        override suspend fun update(profile: UserProfileEntity) { lastUpdated = profile }
     }
 }

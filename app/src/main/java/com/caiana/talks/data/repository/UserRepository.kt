@@ -13,6 +13,7 @@ interface UserRepository {
     fun getActiveUserProfile(): Flow<UserProfileEntity?>
     suspend fun selectUser(id: Int)
     suspend fun clearActiveUser()
+    suspend fun updateProfile(profile: UserProfileEntity)
 }
 
 class UserRepositoryImpl @Inject constructor(
@@ -33,5 +34,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun clearActiveUser() {
         dataStore.clearActiveUserId()
+    }
+
+    override suspend fun updateProfile(profile: UserProfileEntity) {
+        dao.update(profile)
     }
 }

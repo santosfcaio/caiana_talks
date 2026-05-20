@@ -15,6 +15,7 @@ sealed class StartDestination {
     object Loading : StartDestination()
     object ProfileSelection : StartDestination()
     data class Home(val userName: String) : StartDestination()
+    data class ProfileSetup(val userName: String) : StartDestination()
 }
 
 @HiltViewModel
@@ -24,8 +25,11 @@ class MainViewModel @Inject constructor(
 
     val startDestination: StateFlow<StartDestination> = repository.getActiveUserProfile()
         .map { profile ->
-            if (profile == null) StartDestination.ProfileSelection
-            else StartDestination.Home(profile.name)
+            when {
+                profile == null -> StartDestination.ProfileSelection
+                profile.learningGoals.isBlank() -> StartDestination.ProfileSetup(profile.name)
+                else -> StartDestination.Home(profile.name)
+            }
         }
         .stateIn(
             scope = viewModelScope,
