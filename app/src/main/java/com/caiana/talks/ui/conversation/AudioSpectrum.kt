@@ -14,8 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.caiana.talks.ui.theme.LcarsColors
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
@@ -64,7 +64,7 @@ fun AudioSpectrum(
         heights.forEachIndexed { i, h ->
             val barH = size.height * h
             drawRect(
-                color = Color(0xFF6200EE),
+                color = LcarsColors.Orange,
                 topLeft = Offset(i * barWidth + 2f, size.height - barH),
                 size = Size(barWidth - 4f, barH)
             )

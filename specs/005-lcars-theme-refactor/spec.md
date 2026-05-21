@@ -22,7 +22,7 @@ A user launches the app and immediately encounters the iconic LCARS aesthetic: b
 
 1. **Given** the app is launched, **When** the profile selection screen appears, **Then** the screen displays a black background, colored LCARS-style framing panels, and all interactive buttons in the characteristic pill/capsule shape with LCARS color accents.
 2. **Given** a profile is selected and the home screen loads, **When** the user views the screen, **Then** all buttons (Start Conversation, Co-practice) render as LCARS-style pill buttons, the layout includes decorative framing bars, and futuristic typography is used for all labels.
-3. **Given** any screen in this scope, **When** the user taps any interactive element, **Then** the touch feedback (press state) visually conforms to the LCARS aesthetic rather than the default Android ripple.
+3. **Given** any screen in this scope, **When** the user taps any interactive element, **Then** the touch feedback is an instant color shift (element lightens to ~70% opacity on press, reverts immediately on release) with no ripple animation — the default Android ripple `Indication` MUST be replaced entirely.
 
 ---
 
@@ -69,10 +69,10 @@ A user entering a voice conversation session or viewing their progress statistic
 
 ### Functional Requirements
 
-- **FR-001**: All screens MUST use the LCARS core color palette: black (#000000) background; accent panels in orange, blue, purple, beige/peach, and red-maroon tones consistent with TNG LCARS references.
-- **FR-002**: All interactive buttons MUST use LCARS-style pill/capsule shapes — rounded on both ends — replacing all default Android button styles.
-- **FR-003**: Each screen layout MUST incorporate LCARS-style structural framing: horizontal or vertical colored bars with characteristic rounded corners on one side that visually anchor the content area.
-- **FR-004**: All typographic headers, labels, and UI text MUST use an LCARS-style futuristic sans-serif typeface; body text within content panels MAY use a standard readable typeface.
+- **FR-001**: All screens MUST use the LCARS core color palette: black (#000000) background; accent panels in orange, blue, purple, beige/peach, and red-maroon tones consistent with TNG LCARS references. Each individual screen MUST use a maximum of 3 distinct accent colors (in addition to black); different screens may draw from different subsets of the palette to create variety across the app without individual screens feeling cluttered at phone scale.
+- **FR-002**: All interactive buttons MUST use LCARS-style pill/capsule shapes — rounded on both ends — replacing all default Android button styles. Primary or solo-action buttons (e.g., "Iniciar Conversa", "Salvar") MUST span the full content width. Grouped option buttons (e.g., accent selectors, speech rate selectors) MUST be fixed auto-sized pills arranged in horizontal rows, mirroring LCARS console grouping patterns.
+- **FR-003**: Each screen layout MUST incorporate LCARS-style structural framing consisting of: a narrow left accent strip (16–24 dp wide) plus top and bottom horizontal bars. The left strip uses a rounded corner on one end (the LCARS "elbow") to form the characteristic bracket shape. A full-width sidebar is explicitly excluded to preserve usable content area on portrait phone widths (360–393 dp).
+- **FR-004**: All text at or above 16 sp MUST use the LCARS-style futuristic sans-serif typeface (headers, section labels, button text, prominent data readouts). Text below 16 sp (small labels, helper text, fine print) MUST use a standard readable sans-serif typeface to preserve legibility on phone-density screens — particularly for accented Portuguese characters.
 - **FR-005**: Every screen that currently exists in the app MUST receive the LCARS theme — no screen may be left with default or prior styling after this feature is complete.
 - **FR-006**: All existing user interactions, navigation flows, and data displays MUST remain fully functional after the theme is applied — this is a purely visual refactor.
 - **FR-007**: The voice recording/waveform visualization on the conversation screen MUST be styled as an LCARS data display element (e.g., angular waveform bars in the LCARS palette).
@@ -95,6 +95,16 @@ A user entering a voice conversation session or viewing their progress statistic
 - **SC-003**: A Star Trek: TNG fan, shown screenshots of the app, recognizes the LCARS aesthetic without any prompting.
 - **SC-004**: Interactive elements (buttons, inputs) remain visually distinct from decorative LCARS panels — users never mistake a decorative bar for a tappable button.
 - **SC-005**: No default Android loading spinners, default button styles, or default Material color tokens are visible to the user anywhere in the app after this feature ships.
+
+## Clarifications
+
+### Session 2026-05-20
+
+- Q: How should LCARS structural framing adapt to portrait phone layout? → A: Narrow left accent strip (16–24 dp) + top/bottom horizontal bars on every screen; full sidebar explicitly excluded.
+- Q: At what text size does the LCARS typeface switch to a standard readable font? → A: LCARS typeface for text ≥ 16 sp; standard readable sans-serif for text < 16 sp.
+- Q: How many distinct accent colors may appear on a single screen simultaneously? → A: Maximum 3 accent colors per screen (+ black background); different screens may use different subsets of the full palette.
+- Q: How should LCARS pill button width behave on mobile? → A: Full content-width for primary/solo actions; fixed auto-sized pills in horizontal rows for grouped option selectors.
+- Q: What visual feedback replaces the Android ripple for press states? → A: Instant color shift to ~70% opacity on press, reverts on release; no animation duration, no ripple.
 
 ## Assumptions
 

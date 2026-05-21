@@ -64,8 +64,8 @@ $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 ## Structure
 
 <!-- SPECKIT START -->
-Feature 004 (voice conversation) is complete. For architectural reference, see
-`specs/004-voice-conversation/plan.md`.
+Feature 004 (voice conversation) is complete. Feature 005 (LCARS theme refactor) is complete.
+The full LCARS component library lives in `ui/theme/` and `ui/theme/components/`. All screens use `LcarsTheme`, `LcarsFrame`, `LcarsTopBar`, `LcarsButton`, `LcarsDataPanel`, `LcarsProgressBar`, `LcarsStatusIndicator`, `LcarsOptionPills`, and `LcarsCheckRow`.
 <!-- SPECKIT END -->
 
 Para decisões de design e princípios do produto, consulte a constituição em

@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.caiana.talks.data.local.db.UserProfileEntity
+import com.caiana.talks.ui.theme.LcarsColors
+import com.caiana.talks.ui.theme.components.LcarsButton
+import com.caiana.talks.ui.theme.components.LcarsFrame
+import com.caiana.talks.ui.theme.components.LcarsProgressBar
 
 @Composable
 fun ProfileSelectionScreen(
@@ -31,7 +33,7 @@ fun ProfileSelectionScreen(
     when (uiState) {
         ProfileSelectionUiState.Loading -> {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator()
+                LcarsProgressBar(color = LcarsColors.Orange)
             }
         }
         is ProfileSelectionUiState.ShowSelection -> {
@@ -48,26 +50,31 @@ private fun ProfileSelectionContent(
     profiles: List<UserProfileEntity>,
     onUserSelected: (Int) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Quem está usando o app?",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Spacer(modifier = Modifier.height(40.dp))
-        profiles.forEach { profile ->
-            Button(
-                onClick = { onUserSelected(profile.id) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-            ) {
-                Text(text = profile.name, style = MaterialTheme.typography.titleLarge)
+    LcarsFrame(accentColor = LcarsColors.Orange) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = "Quem está usando o app?",
+                style = MaterialTheme.typography.displayLarge,
+                color = LcarsColors.Text,
+            )
+            Spacer(modifier = Modifier.height(40.dp))
+            profiles.forEach { profile ->
+                LcarsButton(
+                    onClick = { onUserSelected(profile.id) },
+                    color = LcarsColors.Beige,
+                    textColor = LcarsColors.Black,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    Text(text = profile.name, style = MaterialTheme.typography.titleLarge)
+                }
             }
         }
     }

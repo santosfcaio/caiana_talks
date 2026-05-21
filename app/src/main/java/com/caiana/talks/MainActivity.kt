@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import com.caiana.talks.ui.theme.LcarsColors
+import com.caiana.talks.ui.theme.LcarsTheme
 import androidx.lifecycle.lifecycleScope
 import com.caiana.talks.data.repository.ConversationRepository
 import com.caiana.talks.ui.navigation.AppNavGraph
@@ -23,8 +24,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         lifecycleScope.launch { conversationRepository.recoverDanglingSessions() }
         setContent {
-            MaterialTheme {
-                Surface {
+            LcarsTheme {
+                Surface(color = LcarsColors.Black) {
                     AppNavGraph()
                 }
             }

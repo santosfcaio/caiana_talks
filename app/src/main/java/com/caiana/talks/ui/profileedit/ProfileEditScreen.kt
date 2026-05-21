@@ -2,7 +2,6 @@ package com.caiana.talks.ui.profileedit
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,20 +11,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -35,8 +27,14 @@ import com.caiana.talks.domain.model.LearningGoal
 import com.caiana.talks.domain.model.SpeechRate
 import com.caiana.talks.domain.model.VoiceAccent
 import com.caiana.talks.domain.model.VoiceGender
+import com.caiana.talks.ui.theme.LcarsColors
+import com.caiana.talks.ui.theme.components.LcarsButton
+import com.caiana.talks.ui.theme.components.LcarsCheckRow
+import com.caiana.talks.ui.theme.components.LcarsDataPanel
+import com.caiana.talks.ui.theme.components.LcarsFrame
+import com.caiana.talks.ui.theme.components.LcarsOptionPills
+import com.caiana.talks.ui.theme.components.LcarsTopBar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileEditScreen(
     viewModel: ProfileEditViewModel = hiltViewModel(),
@@ -54,116 +52,113 @@ fun ProfileEditScreen(
         BackHandler(enabled = true) { /* block back navigation during onboarding */ }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Editar perfil") },
-                navigationIcon = {
-                    if (!hideBack) {
+    LcarsFrame(accentColor = LcarsColors.Blue) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            LcarsTopBar(
+                title = "Editar perfil",
+                accentColor = LcarsColors.Blue,
+                navigationIcon = if (!hideBack) {
+                    {
                         IconButton(onClick = onNavigateBack) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                            Icon(
+                                Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Voltar",
+                                tint = LcarsColors.Black,
+                            )
                         }
                     }
-                }
+                } else null,
             )
-        }
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // --- Meta de aprendizado ---
-            Text("Meta de aprendizado", style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(modifier = Modifier.height(8.dp))
-            LearningGoal.entries.forEach { goal ->
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()) {
-                    RadioButton(
-                        selected = uiState.learningGoal == goal,
-                        onClick = { viewModel.setLearningGoal(goal) }
-                    )
-                    Text(goal.displayLabel, modifier = Modifier.padding(start = 4.dp))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // --- Temas de conversa preferidos ---
-            Text("Temas de conversa preferidos", style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(modifier = Modifier.height(8.dp))
-            ConversationTheme.entries.forEach { theme ->
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()) {
-                    Checkbox(
-                        checked = theme in uiState.selectedThemes,
-                        onCheckedChange = { viewModel.toggleTheme(theme) }
-                    )
-                    Text(theme.displayLabel, modifier = Modifier.padding(start = 4.dp))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // --- Configurações de voz ---
-            Text("Configurações de voz", style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.primary)
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text("Gênero", style = MaterialTheme.typography.labelMedium)
-            VoiceGender.entries.forEach { gender ->
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()) {
-                    RadioButton(
-                        selected = uiState.voiceGender == gender,
-                        onClick = { viewModel.setVoiceGender(gender) }
-                    )
-                    Text(gender.displayLabel, modifier = Modifier.padding(start = 4.dp))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Sotaque", style = MaterialTheme.typography.labelMedium)
-            VoiceAccent.entries.forEach { accent ->
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()) {
-                    RadioButton(
-                        selected = uiState.voiceAccent == accent,
-                        onClick = { viewModel.setVoiceAccent(accent) }
-                    )
-                    Text(accent.displayLabel, modifier = Modifier.padding(start = 4.dp))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(8.dp))
-            Text("Velocidade da fala", style = MaterialTheme.typography.labelMedium)
-            SpeechRate.entries.forEach { rate ->
-                Row(verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()) {
-                    RadioButton(
-                        selected = uiState.speechRate == rate,
-                        onClick = { viewModel.setSpeechRate(rate) }
-                    )
-                    Text(rate.displayLabel, modifier = Modifier.padding(start = 4.dp))
-                }
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Button(
-                onClick = { viewModel.savePreferences() },
-                modifier = Modifier.fillMaxWidth()
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                Text("Salvar")
-            }
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
+                LcarsDataPanel(accentColor = LcarsColors.Orange) {
+                    Text(
+                        "Meta de aprendizado",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = LcarsColors.Orange,
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                LcarsOptionPills(
+                    options = LearningGoal.entries.map { it to it.displayLabel },
+                    selected = uiState.learningGoal,
+                    onSelect = viewModel::setLearningGoal,
+                    accentColor = LcarsColors.Blue,
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                LcarsDataPanel(accentColor = LcarsColors.Orange) {
+                    Text(
+                        "Temas de conversa preferidos",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = LcarsColors.Orange,
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                ConversationTheme.entries.forEach { theme ->
+                    LcarsCheckRow(
+                        label = theme.displayLabel,
+                        checked = theme in uiState.selectedThemes,
+                        onCheckedChange = { viewModel.toggleTheme(theme) },
+                        accentColor = LcarsColors.Blue,
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                LcarsDataPanel(accentColor = LcarsColors.Orange) {
+                    Text(
+                        "Configurações de voz",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = LcarsColors.Orange,
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Gênero", style = MaterialTheme.typography.labelMedium, color = LcarsColors.TextDim)
+                LcarsOptionPills(
+                    options = VoiceGender.entries.map { it to it.displayLabel },
+                    selected = uiState.voiceGender,
+                    onSelect = viewModel::setVoiceGender,
+                    accentColor = LcarsColors.Blue,
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Sotaque", style = MaterialTheme.typography.labelMedium, color = LcarsColors.TextDim)
+                LcarsOptionPills(
+                    options = VoiceAccent.entries.map { it to it.displayLabel },
+                    selected = uiState.voiceAccent,
+                    onSelect = viewModel::setVoiceAccent,
+                    accentColor = LcarsColors.Blue,
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Velocidade da fala", style = MaterialTheme.typography.labelMedium, color = LcarsColors.TextDim)
+                LcarsOptionPills(
+                    options = SpeechRate.entries.map { it to it.displayLabel },
+                    selected = uiState.speechRate,
+                    onSelect = viewModel::setSpeechRate,
+                    accentColor = LcarsColors.Purple,
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                LcarsButton(
+                    onClick = { viewModel.savePreferences() },
+                    color = LcarsColors.Orange,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Text("Salvar")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
     }
 }
