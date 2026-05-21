@@ -13,6 +13,9 @@ interface UserProfileDao {
     @Query("SELECT * FROM user_profiles WHERE id = :id")
     fun getById(id: Int): Flow<UserProfileEntity?>
 
+    @Query("SELECT * FROM user_profiles WHERE id = :id")
+    suspend fun getProfileById(id: Int): UserProfileEntity?
+
     @Update
     suspend fun update(profile: UserProfileEntity)
 }

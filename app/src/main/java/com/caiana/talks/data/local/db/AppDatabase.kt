@@ -6,14 +6,20 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
-    entities = [UserProfileEntity::class, SessionEntity::class, CorrectionEntity::class],
-    version = 2,
+    entities = [
+        UserProfileEntity::class,
+        SessionEntity::class,
+        CorrectionEntity::class,
+        ConversationTurnEntity::class
+    ],
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userProfileDao(): UserProfileDao
     abstract fun sessionDao(): SessionDao
     abstract fun correctionDao(): CorrectionDao
+    abstract fun conversationTurnDao(): ConversationTurnDao
 
     class SeedCallback : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -46,6 +52,32 @@ abstract class AppDatabase : RoomDatabase() {
                 )
                 database.execSQL(
                     "CREATE INDEX IF NOT EXISTS index_corrections_sessionId ON corrections(sessionId)"
+                )
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE sessions ADD COLUMN status TEXT NOT NULL DEFAULT 'completed'")
+                database.execSQL("ALTER TABLE sessions ADD COLUMN mode TEXT NOT NULL DEFAULT 'single'")
+                database.execSQL("ALTER TABLE sessions ADD COLUMN vocabulary TEXT NOT NULL DEFAULT ''")
+                database.execSQL("ALTER TABLE sessions ADD COLUMN co_practice_group_id TEXT")
+                database.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS conversation_turns (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        session_id INTEGER NOT NULL,
+                        speaker_profile_id INTEGER NOT NULL,
+                        turn_index INTEGER NOT NULL,
+                        user_text TEXT NOT NULL,
+                        ai_text TEXT NOT NULL DEFAULT '',
+                        timestamp INTEGER NOT NULL,
+                        FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE
+                    )
+                    """.trimIndent()
+                )
+                database.execSQL(
+                    "CREATE INDEX IF NOT EXISTS index_conversation_turns_session_id ON conversation_turns(session_id)"
                 )
             }
         }

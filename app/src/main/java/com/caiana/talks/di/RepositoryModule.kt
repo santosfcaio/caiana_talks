@@ -1,5 +1,7 @@
 package com.caiana.talks.di
 
+import com.caiana.talks.data.repository.ConversationRepository
+import com.caiana.talks.data.repository.ConversationRepositoryImpl
 import com.caiana.talks.data.repository.StatsRepository
 import com.caiana.talks.data.repository.StatsRepositoryImpl
 import com.caiana.talks.data.repository.UserRepository
@@ -21,4 +23,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindStatsRepository(impl: StatsRepositoryImpl): StatsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindConversationRepository(impl: ConversationRepositoryImpl): ConversationRepository
 }

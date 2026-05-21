@@ -23,7 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 fun HomeScreen(
     userName: String,
     onNavigateToSettings: () -> Unit,
-    onNavigateToStats: () -> Unit
+    onNavigateToStats: () -> Unit,
+    onNavigateToConversation: () -> Unit = {},
+    onNavigateToCoPractice: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -45,6 +47,12 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Text(text = "Olá, $userName!")
+            Button(onClick = onNavigateToConversation) {
+                Text("Iniciar conversa")
+            }
+            Button(onClick = onNavigateToCoPractice) {
+                Text("Co-practice")
+            }
             Button(onClick = onNavigateToStats) {
                 Text("Ver meu progresso")
             }

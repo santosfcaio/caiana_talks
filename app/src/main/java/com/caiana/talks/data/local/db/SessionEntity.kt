@@ -21,5 +21,9 @@ data class SessionEntity(
     @ColumnInfo(name = "user_profile_id", index = true) val userProfileId: Int,
     @ColumnInfo(name = "started_at") val startedAt: Long,
     @ColumnInfo(name = "ended_at") val endedAt: Long,
-    val transcript: String = ""
+    val transcript: String = "",
+    @ColumnInfo(name = "status") val status: String = "completed",
+    @ColumnInfo(name = "mode") val mode: String = "single",
+    @ColumnInfo(name = "vocabulary") val vocabulary: String = "",
+    @ColumnInfo(name = "co_practice_group_id") val coPracticeGroupId: String? = null
 )

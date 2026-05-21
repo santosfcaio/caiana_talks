@@ -303,6 +303,12 @@ class StatsRepositoryImplTest {
         override suspend fun insertSession(session: SessionEntity): Long = 0L
 
         override fun getSessionCount(profileId: Int): Flow<Int> = flowOf(0)
+
+        override suspend fun updateSession(session: SessionEntity) {}
+        override suspend fun getSessionById(id: Int): SessionEntity? = null
+        override suspend fun getActiveSessions(): List<SessionEntity> = emptyList()
+        override suspend fun getSessionsByGroup(groupId: String): List<SessionEntity> = emptyList()
+        override suspend fun deleteSession(id: Int) {}
     }
 
     private class FakeCorrectionDao : CorrectionDao {
