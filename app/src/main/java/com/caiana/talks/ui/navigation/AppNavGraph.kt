@@ -9,9 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.caiana.talks.ui.conversation.CoPracticeSetupScreen
+import com.caiana.talks.ui.conversation.ConversationScreen
+import com.caiana.talks.ui.conversation.SessionSummaryScreen
 import com.caiana.talks.ui.home.HomeScreen
 import com.caiana.talks.ui.main.MainViewModel
 import com.caiana.talks.ui.main.StartDestination
@@ -63,7 +68,9 @@ fun AppNavGraph(
                     HomeScreen(
                         userName = userName,
                         onNavigateToSettings = { navController.navigate("settings") },
-                        onNavigateToStats = { navController.navigate("stats") }
+                        onNavigateToStats = { navController.navigate("stats") },
+                        onNavigateToConversation = { navController.navigate("conversation") },
+                        onNavigateToCoPractice = { navController.navigate("coPracticeSetup") }
                     )
                 }
                 composable("settings") {
@@ -83,6 +90,67 @@ fun AppNavGraph(
                 }
                 composable("stats") {
                     StatsScreen(onNavigateBack = { navController.popBackStack() })
+                }
+                composable(
+                    route = "conversation?secondProfileId={secondProfileId}",
+                    arguments = listOf(
+                        navArgument("secondProfileId") {
+                            type = NavType.StringType
+                            nullable = true
+                            defaultValue = null
+                        }
+                    )
+                ) {
+                    ConversationScreen(
+                        viewModel = hiltViewModel(),
+                        onNavigateToSummary = { groupId, sessionId ->
+                            val route = if (groupId != null) {
+                                "sessionSummary?groupId=$groupId"
+                            } else {
+                                "sessionSummary?sessionId=$sessionId"
+                            }
+                            navController.navigate(route) {
+                                popUpTo("home")
+                            }
+                        },
+                        onNavigateHome = {
+                            navController.navigate("home") {
+                                popUpTo("home") { inclusive = false }
+                            }
+                        }
+                    )
+                }
+                composable("coPracticeSetup") {
+                    CoPracticeSetupScreen(
+                        viewModel = hiltViewModel(),
+                        onStart = { _, secondProfileId ->
+                            navController.navigate("conversation?secondProfileId=$secondProfileId")
+                        }
+                    )
+                }
+                composable(
+                    route = "sessionSummary?sessionId={sessionId}&groupId={groupId}",
+                    arguments = listOf(
+                        navArgument("sessionId") {
+                            type = NavType.StringType
+                            nullable = true
+                            defaultValue = null
+                        },
+                        navArgument("groupId") {
+                            type = NavType.StringType
+                            nullable = true
+                            defaultValue = null
+                        }
+                    )
+                ) {
+                    SessionSummaryScreen(
+                        viewModel = hiltViewModel(),
+                        onNavigateHome = {
+                            navController.navigate("home") {
+                                popUpTo("home") { inclusive = false }
+                            }
+                        }
+                    )
                 }
             }
         }

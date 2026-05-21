@@ -5,14 +5,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Estrutura de source
 - `ui/profileselection/` — tela de seleção de perfil
 - `ui/profileedit/` — tela de edição de preferências do perfil
-- `ui/home/` — tela inicial
+- `ui/home/` — tela inicial (inclui botões "Iniciar conversa" e "Co-practice")
 - `ui/settings/` — tela de configurações
+- `ui/conversation/` — tela de conversa por voz, tela de setup de co-prática, tela de resumo de sessão
+- `ui/stats/` — tela de estatísticas do usuário
 - `ui/navigation/` — grafo de navegação (Jetpack Navigation Compose)
-- `domain/model/` — enumerações de domínio (`LearningGoal`, `ConversationTheme`, `VoiceGender`, `VoiceAccent`, `SpeechRate`, `ProfilePreferences`)
-- `data/local/db/` — Room database, DAOs e entidades
+- `domain/model/` — enumerações e modelos de domínio (`LearningGoal`, `ConversationTheme`, `VoiceGender`, `VoiceAccent`, `SpeechRate`, `ProfilePreferences`, `AiPersona`, `SessionMode`, `SessionStatus`, `ConversationError`, `AiStreamEvent`, `AiResponseMeta`, `SessionResult`)
+- `data/local/db/` — Room database v3 (sessions + conversation_turns + corrections), DAOs e entidades
 - `data/local/preferences/` — DataStore de preferências do usuário
-- `data/repository/` — `UserRepository`
-- `di/` — módulos Hilt
+- `data/conversation/` — `SentenceChunker`, `RollingWindow`, `SystemPromptBuilder`, `SpeechRecognizerService`, `TextToSpeechService`, `VoiceSelector`, `SseEventParser`, `AiResponseParser`, `SessionDurationPolicy`
+- `data/remote/` — `ConversationAiClient` (Anthropic claude-haiku-4-5 via OkHttp SSE)
+- `data/repository/` — `UserRepository`, `ConversationRepository`, `StatsRepository`
+- `di/` — módulos Hilt (`ConversationModule`, `DatabaseModule`, `RepositoryModule`)
 
 ## Testes
 
@@ -60,8 +64,7 @@ $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 ## Structure
 
 <!-- SPECKIT START -->
-For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan at
+Feature 004 (voice conversation) is complete. For architectural reference, see
 `specs/004-voice-conversation/plan.md`.
 <!-- SPECKIT END -->
 

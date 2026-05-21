@@ -164,6 +164,8 @@ class UserRepositoryTest {
         override fun getAll(): Flow<List<UserProfileEntity>> = flowOf(profiles)
         override fun getById(id: Int): Flow<UserProfileEntity?> =
             flowOf(profiles.firstOrNull { it.id == id })
+        override suspend fun getProfileById(id: Int): UserProfileEntity? =
+            profiles.firstOrNull { it.id == id }
         override suspend fun update(profile: UserProfileEntity) { lastUpdated = profile }
     }
 }
