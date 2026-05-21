@@ -1,14 +1,16 @@
 package com.caiana.talks.di
 
 import android.content.Context
+import com.caiana.talks.BuildConfig
 import com.caiana.talks.data.conversation.AndroidSpeechRecognizerService
 import com.caiana.talks.data.conversation.AndroidTextToSpeechService
 import com.caiana.talks.data.conversation.SpeechRecognizerService
 import com.caiana.talks.data.conversation.SystemPromptBuilder
 import com.caiana.talks.data.conversation.SystemPromptBuilderImpl
 import com.caiana.talks.data.conversation.TextToSpeechService
-import com.caiana.talks.data.remote.AnthropicConversationAiClient
+import com.caiana.talks.data.local.preferences.UserPreferencesDataStore
 import com.caiana.talks.data.remote.ConversationAiClient
+import com.caiana.talks.data.remote.OpenRouterConversationAiClient
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -33,6 +35,18 @@ object ConversationProvideModule {
 
     @Provides
     @Singleton
+    fun provideConversationAiClient(
+        httpClient: OkHttpClient,
+        userPrefs: UserPreferencesDataStore
+    ): ConversationAiClient = OpenRouterConversationAiClient(
+        httpClient = httpClient,
+        userPrefs = userPrefs,
+        defaultApiKey = BuildConfig.OPENROUTER_API_KEY,
+        defaultModel = BuildConfig.OPENROUTER_MODEL
+    )
+
+    @Provides
+    @Singleton
     fun provideSpeechRecognizerService(
         @ApplicationContext context: Context
     ): SpeechRecognizerService = AndroidSpeechRecognizerService(context)
@@ -47,12 +61,6 @@ object ConversationProvideModule {
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class ConversationBindModule {
-
-    @Binds
-    @Singleton
-    abstract fun bindConversationAiClient(
-        impl: AnthropicConversationAiClient
-    ): ConversationAiClient
 
     @Binds
     @Singleton

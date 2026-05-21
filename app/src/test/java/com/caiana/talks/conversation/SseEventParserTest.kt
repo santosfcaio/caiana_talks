@@ -47,14 +47,21 @@ class SseEventParserTest {
     }
 
     @Test
-    fun `extractDeltaText extracts text delta from Anthropic SSE JSON`() {
-        val json = """{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"Hello"}}"""
+    fun `extractDeltaText extracts text delta from OpenRouter SSE JSON`() {
+        val json = """{"id":"gen-1","object":"chat.completion.chunk","choices":[{"index":0,"delta":{"content":"Hello"},"finish_reason":null}]}"""
         val result = SseEventParser.extractDeltaText(json)
         assertEquals("Hello", result)
     }
 
     @Test
-    fun `extractDeltaText returns null for non-text-delta event`() {
+    fun `extractDeltaText returns null when choices delta content is absent`() {
+        val json = """{"id":"gen-2","object":"chat.completion.chunk","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}"""
+        val result = SseEventParser.extractDeltaText(json)
+        assertNull(result)
+    }
+
+    @Test
+    fun `extractDeltaText returns null for non-choices event`() {
         val json = """{"type":"message_start","message":{"id":"msg_1"}}"""
         val result = SseEventParser.extractDeltaText(json)
         assertNull(result)

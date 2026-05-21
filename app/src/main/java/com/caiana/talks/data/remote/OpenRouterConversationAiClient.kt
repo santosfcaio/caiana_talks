@@ -1,13 +1,13 @@
 package com.caiana.talks.data.remote
 
-import com.caiana.talks.BuildConfig
 import com.caiana.talks.data.conversation.AiResponseParser
-import com.caiana.talks.domain.model.AiResponseMeta
+import com.caiana.talks.data.local.preferences.UserPreferencesDataStore
 import com.caiana.talks.domain.model.AiStreamEvent
 import com.caiana.talks.domain.model.ConversationError
 import com.caiana.talks.domain.model.ConversationMessage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import okhttp3.MediaType.Companion.toMediaType
@@ -17,10 +17,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
-import javax.inject.Inject
 
-class AnthropicConversationAiClient @Inject constructor(
-    private val httpClient: OkHttpClient
+class OpenRouterConversationAiClient(
+    private val httpClient: OkHttpClient,
+    private val userPrefs: UserPreferencesDataStore,
+    private val defaultApiKey: String,
+    private val defaultModel: String
 ) : ConversationAiClient {
 
     override fun streamReply(
@@ -28,19 +30,16 @@ class AnthropicConversationAiClient @Inject constructor(
         window: List<ConversationMessage>,
         userInput: String
     ): Flow<AiStreamEvent> = flow {
-        val systemArray = JSONArray().apply {
-            put(JSONObject().apply {
-                put("type", "text")
-                put("text", system.staticBlock)
-                put("cache_control", JSONObject().put("type", "ephemeral"))
-            })
-            put(JSONObject().apply {
-                put("type", "text")
-                put("text", system.personalizationBlock)
-            })
-        }
+        val userKey = userPrefs.openrouterApiKey.first()
+        val userModel = userPrefs.aiModel.first()
+        val apiKey = userKey.takeIf { it.isNotEmpty() } ?: defaultApiKey
+        val model = userModel.takeIf { it.isNotEmpty() } ?: defaultModel
 
         val messagesArray = JSONArray()
+        messagesArray.put(JSONObject().apply {
+            put("role", "system")
+            put("content", "${system.staticBlock}\n\n${system.personalizationBlock}")
+        })
         window.forEach { msg ->
             messagesArray.put(JSONObject().apply {
                 put("role", if (msg.role == ConversationMessage.Role.USER) "user" else "assistant")
@@ -53,18 +52,15 @@ class AnthropicConversationAiClient @Inject constructor(
         })
 
         val body = JSONObject().apply {
-            put("model", "claude-haiku-4-5")
+            put("model", model)
             put("max_tokens", 400)
             put("stream", true)
-            put("system", systemArray)
             put("messages", messagesArray)
         }.toString()
 
         val request = Request.Builder()
-            .url("https://api.anthropic.com/v1/messages")
-            .header("x-api-key", BuildConfig.ANTHROPIC_API_KEY)
-            .header("anthropic-version", "2023-06-01")
-            .header("anthropic-beta", "prompt-caching-2024-07-31")
+            .url("https://openrouter.ai/api/v1/chat/completions")
+            .header("Authorization", "Bearer $apiKey")
             .header("content-type", "application/json")
             .post(body.toRequestBody("application/json".toMediaType()))
             .build()
@@ -93,14 +89,11 @@ class AnthropicConversationAiClient @Inject constructor(
 
                 fullResponse.append(delta)
 
-                // Emit text deltas only from within the <say> block
                 if (!sayEnded) {
                     if (fullResponse.contains("</say>")) {
                         sayEnded = true
-                        if (!sayEnded) emit(AiStreamEvent.SayEnded)
                         emit(AiStreamEvent.SayEnded)
                     } else {
-                        // Only emit delta if it's inside <say>
                         val sayStart = fullResponse.indexOf("<say>")
                         if (sayStart >= 0) {
                             val content = fullResponse.substring(sayStart + 5)

@@ -144,6 +144,8 @@ class UserRepositoryTest {
         var clearCalled = false
 
         override val activeUserId: Flow<Int?> = activeUserIdFlow
+        override val openrouterApiKey: Flow<String> = MutableStateFlow("")
+        override val aiModel: Flow<String> = MutableStateFlow("")
 
         override suspend fun setActiveUserId(id: Int) {
             lastSavedId = id
@@ -154,6 +156,9 @@ class UserRepositoryTest {
             clearCalled = true
             activeUserIdFlow.value = null
         }
+
+        override suspend fun setOpenrouterApiKey(key: String) {}
+        override suspend fun setAiModel(model: String) {}
     }
 
     private class FakeUserProfileDao(
