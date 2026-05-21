@@ -1,9 +1,9 @@
 <!--
 SYNC IMPACT REPORT
-Version change: [TEMPLATE] → 1.0.0
-Modified principles: All template placeholders replaced — 6 principles defined from scratch
-Added sections: Core Principles (6), Platform & Technology Constraints, Development Workflow, Governance
-Removed sections: N/A (initial constitution fill)
+Version change: 1.0.0 → 1.1.0
+Modified principles: N/A
+Added sections: Core Principles — VII. LCARS Visual Identity
+Removed sections: N/A
 Templates requiring updates:
   ✅ .specify/templates/plan-template.md — Constitution Check section is generic; compatible
   ✅ .specify/templates/spec-template.md — Structure is generic; compatible
@@ -104,6 +104,35 @@ MUST NOT block the initial release.
 **Rationale**: Without visible progress, learners lose motivation. Personalization ensures
 the app feels tailored rather than generic.
 
+### VII. LCARS Visual Identity
+
+The app's entire UI MUST use the LCARS (Library Computer Access/Retrieval System) visual
+language, inspired by the computer interfaces of Star Trek: The Next Generation. Required
+constraints:
+- **Color palette**: Black (#000000) background at all times. Accent panels MUST use the
+  canonical LCARS color set: orange, blue, purple, beige/peach, and red-maroon tones.
+  No screen may introduce ad-hoc colors outside this palette.
+- **Buttons**: All interactive buttons MUST use LCARS-style pill/capsule shapes (rounded
+  on both ends). Default Android Material button styles MUST NOT appear.
+- **Layout framing**: Every screen MUST include LCARS-style structural framing — horizontal
+  or vertical colored bars with characteristic single-side rounded corners anchoring the
+  content area.
+- **Typography**: Headers and UI labels MUST use an LCARS-style futuristic sans-serif
+  typeface. Default system fonts are not acceptable for prominent UI text.
+- **Loading & progress indicators**: Default Android spinners MUST NOT appear. All loading
+  states MUST use LCARS-style equivalents (segmented bars, status indicators).
+- **New features**: Every new screen or UI component introduced by any future feature MUST
+  conform to the LCARS component library and color palette from inception — retrofitting
+  the theme after the fact is not acceptable.
+- **Out of scope**: Sound effects (beeps, chirps) and complex animations (scanning sweeps,
+  flickering screens) are not required by this principle; they may be added as discrete
+  enhancements with separate justification.
+
+**Rationale**: The LCARS aesthetic is the brand identity of Caiana Talks. A consistent,
+recognizable visual language differentiates the app and deepens the immersive experience
+for the target audience. Inconsistency across screens breaks the Star Trek illusion and
+makes the app feel unfinished.
+
 ## Platform & Technology Constraints
 
 - **Target platform**: Android (minimum SDK TBD during planning, targeting modern devices).
@@ -142,4 +171,4 @@ require:
 All implementation plans and specs MUST include a Constitution Check gate verifying
 compliance with the six core principles before work begins.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-18
+**Version**: 1.1.0 | **Ratified**: 2026-05-18 | **Last Amended**: 2026-05-20
