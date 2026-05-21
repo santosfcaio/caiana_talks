@@ -24,6 +24,7 @@ import com.caiana.talks.domain.model.SessionMode
 import com.caiana.talks.domain.model.SessionResult
 import com.caiana.talks.domain.model.SessionStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -73,6 +74,7 @@ class ConversationViewModel @Inject constructor(
     val uiState: StateFlow<ConversationUiState> = _uiState.asStateFlow()
 
     private var config: ConversationConfig? = null
+    private val configDeferred = CompletableDeferred<ConversationConfig?>()
     private var sessionHandle: SessionHandle? = null
     private val conversationHistory = mutableListOf<ConversationMessage>()
     private var activeSpeakerIndex = 0
@@ -82,7 +84,10 @@ class ConversationViewModel @Inject constructor(
         viewModelScope.launch {
             val profiles = userRepository.getAllProfiles().first()
             val activeProfile = userRepository.getActiveUserProfile().first()
-            if (activeProfile == null) return@launch
+            if (activeProfile == null) {
+                configDeferred.complete(null)
+                return@launch
+            }
 
             config = if (secondProfileId != null) {
                 val secondProfile = profiles.firstOrNull { it.id == secondProfileId }
@@ -92,7 +97,8 @@ class ConversationViewModel @Inject constructor(
                 activeProfile.toConversationConfig()
             }
 
-            val cfg = config ?: return@launch
+            val cfg = config ?: run { configDeferred.complete(null); return@launch }
+            configDeferred.complete(cfg)
             _uiState.update {
                 it.copy(
                     mode = cfg.mode,
@@ -104,8 +110,8 @@ class ConversationViewModel @Inject constructor(
     }
 
     fun onStart() {
-        val cfg = config ?: return
         viewModelScope.launch {
+            val cfg = configDeferred.await() ?: return@launch
             try {
                 ttsService.configure(cfg.voice)
             } catch (_: Exception) { }
