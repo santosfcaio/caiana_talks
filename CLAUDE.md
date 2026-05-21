@@ -61,13 +61,7 @@ $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 & $adb emu kill
 ```
 
-## Structure
-
-<!-- SPECKIT START -->
-Feature 004 (voice conversation) is complete. Feature 005 (LCARS theme refactor) is complete.
-The full LCARS component library lives in `ui/theme/` and `ui/theme/components/`. All screens use `LcarsTheme`, `LcarsFrame`, `LcarsTopBar`, `LcarsButton`, `LcarsDataPanel`, `LcarsProgressBar`, `LcarsStatusIndicator`, `LcarsOptionPills`, and `LcarsCheckRow`.
-Feature 006 (OpenRouter connector) is in progress. See implementation plan at `specs/006-openrouter-connector/plan.md`.
-<!-- SPECKIT END -->
+## Detalhamento
 
 Para decisões de design e princípios do produto, consulte a constituição em
 `.specify/memory/constitution.md`.
