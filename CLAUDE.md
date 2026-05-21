@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `data/local/db/` — Room database v3 (sessions + conversation_turns + corrections), DAOs e entidades
 - `data/local/preferences/` — DataStore de preferências do usuário
 - `data/conversation/` — `SentenceChunker`, `RollingWindow`, `SystemPromptBuilder`, `SpeechRecognizerService`, `TextToSpeechService`, `VoiceSelector`, `SseEventParser`, `AiResponseParser`, `SessionDurationPolicy`
-- `data/remote/` — `ConversationAiClient` (Anthropic claude-haiku-4-5 via OkHttp SSE)
+- `data/remote/` — `ConversationAiClient` (OpenRouter.ai via OkHttp SSE — `OpenRouterConversationAiClient`; defaults from `BuildConfig.OPENROUTER_API_KEY` / `OPENROUTER_MODEL`, overridable from Settings)
 - `data/repository/` — `UserRepository`, `ConversationRepository`, `StatsRepository`
 - `di/` — módulos Hilt (`ConversationModule`, `DatabaseModule`, `RepositoryModule`)
 
@@ -66,6 +66,7 @@ $adb = "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 <!-- SPECKIT START -->
 Feature 004 (voice conversation) is complete. Feature 005 (LCARS theme refactor) is complete.
 The full LCARS component library lives in `ui/theme/` and `ui/theme/components/`. All screens use `LcarsTheme`, `LcarsFrame`, `LcarsTopBar`, `LcarsButton`, `LcarsDataPanel`, `LcarsProgressBar`, `LcarsStatusIndicator`, `LcarsOptionPills`, and `LcarsCheckRow`.
+Feature 006 (OpenRouter connector) is in progress. See implementation plan at `specs/006-openrouter-connector/plan.md`.
 <!-- SPECKIT END -->
 
 Para decisões de design e princípios do produto, consulte a constituição em

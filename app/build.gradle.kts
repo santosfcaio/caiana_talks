@@ -28,8 +28,13 @@ android {
 
         buildConfigField(
             "String",
-            "ANTHROPIC_API_KEY",
-            "\"${localProps.getProperty("ANTHROPIC_API_KEY", "")}\""
+            "OPENROUTER_API_KEY",
+            "\"${localProps.getProperty("OPENROUTER_API_KEY", "")}\""
+        )
+        buildConfigField(
+            "String",
+            "OPENROUTER_MODEL",
+            "\"${localProps.getProperty("OPENROUTER_MODEL", "")}\""
         )
     }
 

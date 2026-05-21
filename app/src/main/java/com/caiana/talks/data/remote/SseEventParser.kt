@@ -20,10 +20,10 @@ object SseEventParser {
     fun extractDeltaText(json: String): String? {
         return try {
             val obj = JSONObject(json)
-            if (obj.optString("type") != "content_block_delta") return null
-            val delta = obj.optJSONObject("delta") ?: return null
-            if (delta.optString("type") != "text_delta") return null
-            delta.optString("text").takeIf { it.isNotEmpty() }
+            val choices = obj.optJSONArray("choices") ?: return null
+            if (choices.length() == 0) return null
+            val delta = choices.getJSONObject(0).optJSONObject("delta") ?: return null
+            delta.optString("content").takeIf { it.isNotEmpty() }
         } catch (_: Exception) {
             null
         }
